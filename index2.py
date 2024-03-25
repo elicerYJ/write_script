@@ -72,6 +72,8 @@ def to_word(df):
         row_data = "\n".join(str(value) for value in row)
         doc.add_paragraph(row_data)
     
+    doc.add_paragraph("-----")
+
     # 파일 데이터를 BytesIO 객체로 저장하고 반환
     doc_io = BytesIO()
     doc.save(doc_io)
