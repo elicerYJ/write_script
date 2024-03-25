@@ -28,6 +28,14 @@ if submit_button:
     new_data = {'페이지 번호': page_number, '애니메이션 적용 대상': animation_target, '사용할 대본': script}
     st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_data])], ignore_index=True)
 
+# 데이터프레임에서 마지막 행을 삭제하는 버튼
+if st.button('마지막 스크립트 삭제'):
+    if not st.session_state.df.empty:
+        st.session_state.df = st.session_state.df[:-1]
+    else:
+        st.warning('데이터프레임이 비어 있습니다.')
+
+
 # 데이터프레임을 화면에 표시
 st.checkbox("Use container width", value=False, key="use_container_width")
 
@@ -46,9 +54,40 @@ def to_excel(df):
     return output.getvalue()
 
 
-if st.button('다운로드'):
+if st.button('엑셀 다운로드'):
     val = to_excel(st.session_state.df)
     st.download_button(label='현재 데이터 다운로드', data=val, file_name=f"{course_name}_script.xlsx", mime='application/vnd.ms-excel')
+
+
+from docx import Document  # 워드 파일로 저장하기 위해 필요
+
+def to_word(df):
+    doc = Document()
+    # 테이블 추가
+    table = doc.add_table(rows=1, cols=len(df.columns))
+    table.style = 'Table Grid'
+
+    # 헤더 행 추가
+    hdr_cells = table.rows[0].cells
+    for i, column_name in enumerate(df.columns):
+        hdr_cells[i].text = str(column_name)
+
+    # 데이터 행 추가
+    for index, row in df.iterrows():
+        row_cells = table.add_row().cells
+        for i, value in enumerate(row):
+            row_cells[i].text = str(value)
+
+    # 파일 데이터를 BytesIO 객체로 저장하고 반환
+    doc_io = BytesIO()
+    doc.save(doc_io)
+    doc_io.seek(0)
+    return doc_io.getvalue()
+
+# 데이터프레임을 워드 파일로 다운로드하는 버튼
+if st.button('워드 다운로드'):
+    word_val = to_word(st.session_state.df)
+    st.download_button(label='현재 데이터 워드로 다운로드', data=word_val, file_name=f"{course_name}_script.docx", mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
 
 st.divider()
 
