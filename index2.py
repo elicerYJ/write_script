@@ -31,9 +31,9 @@ if submit_button:
 
 
 # 데이터프레임을 화면에 표시
-st.checkbox("Use container width", value=False, key="use_container_width")
+st.checkbox("Use container width", value=True, key="use_container_width")
 
-st.dataframe(
+st.data_editor(
     st.session_state.df, 
     use_container_width=st.session_state.use_container_width,
     hide_index=True
