@@ -66,12 +66,13 @@ def to_word(df):
     
     # 데이터프레임의 컬럼명 추가
     doc.add_paragraph("\n".join(df.columns))
+    doc.add_paragraph("==========")
     
     # 데이터프레임의 데이터 추가
     for index, row in df.iterrows():
         row_data = "\n".join(str(value) for value in row)
         doc.add_paragraph(row_data)
-        doc.add_paragraph("-----")
+        doc.add_paragraph("==========")
 
 
     # 파일 데이터를 BytesIO 객체로 저장하고 반환
