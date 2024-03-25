@@ -101,7 +101,7 @@ if st.button('마지막 스크립트 삭제'):
         st.warning('데이터프레임이 비어 있습니다.')
 
 # 데이터프레임을 워드 파일로 다운로드하는 버튼
-if st.button('워드 다운로드'):
+if st.button('📜 워드 다운로드'):
     word_val = to_word(st.session_state.df)
     st.download_button(
         label='현재 데이터 워드로 다운로드', 
@@ -111,7 +111,7 @@ if st.button('워드 다운로드'):
         )
 
 
-if st.button('엑셀 다운로드'):
+if st.button('📋 엑셀 다운로드'):
     val = to_excel(st.session_state.df)
     st.download_button(
         label='현재 데이터 엑셀로 다운로드', 
