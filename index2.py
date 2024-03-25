@@ -51,7 +51,7 @@ with st.form(key='record_form'):
         index = 0
         )
     
-    effect_comm = st.text_input('애니메이션 효과 설명')
+    effect_comm = st.text_input('애니메이션 효과 설명', '없음')
     
     script = st.text_area('사용할 대본', height = 150)
     
