@@ -45,7 +45,7 @@ course_name = st.text_input("강의명", "도레미파이썬")
 with st.form(key='record_form'):
     page_number = st.number_input("페이지 번호", value=None, step=1)
     
-    animation_target = st.multiselect(
+    animation_target = st.selectbox(
         '애니메이션 적용 대상',
         ['⛔ 없음', "🔠 텍스트", '🆚 도형을 포함한 텍스트', '🟪 도형', '🖼️ 이미지(아이콘)/코드', '✨ 효과', '👩‍🎨 애니메이션 제작 필요','🎸 기타'],
         default = ['⛔ 없음']
