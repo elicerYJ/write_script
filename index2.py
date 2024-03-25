@@ -29,13 +29,6 @@ if submit_button:
     new_data = {'페이지 번호': page_number, '애니메이션 적용 대상': animation_target, '사용할 대본': script}
     st.session_state.df = pd.concat([st.session_state.df, pd.DataFrame([new_data])], ignore_index=True)
 
-# 데이터프레임에서 마지막 행을 삭제하는 버튼
-if st.button('마지막 스크립트 삭제'):
-    if not st.session_state.df.empty:
-        st.session_state.df = st.session_state.df[:-1]
-    else:
-        st.warning('데이터프레임이 비어 있습니다.')
-
 
 # 데이터프레임을 화면에 표시
 st.checkbox("Use container width", value=False, key="use_container_width")
@@ -53,6 +46,13 @@ def to_excel(df):
         df.to_excel(writer, index=False, sheet_name='Sheet1')
     # 파일 데이터를 가져와서 반환
     return output.getvalue()
+
+# 데이터프레임에서 마지막 행을 삭제하는 버튼
+if st.button('마지막 스크립트 삭제'):
+    if not st.session_state.df.empty:
+        st.session_state.df = st.session_state.df[:-1]
+    else:
+        st.warning('데이터프레임이 비어 있습니다.')
 
 
 if st.button('엑셀 다운로드'):
