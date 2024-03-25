@@ -45,7 +45,7 @@ course_name = st.text_input("강의명", "도레미파이썬")
 with st.form(key='record_form'):
     st.write("### 스크립트 작성")
 
-    page_number = st.number_input("페이지 번호", value=None, step=1)
+    page_number = st.number_input("페이지 번호", value=0, step=1)
     
     animation_target = st.selectbox(
         '애니메이션 적용 대상',
