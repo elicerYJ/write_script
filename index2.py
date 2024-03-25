@@ -61,7 +61,7 @@ with st.form(key='record_form'):
     
     st.divider()
     st.write("### 슬라이트 노트")
-    
+    st.write("작성된 스크립트를 복사해서 슬라이드 노트에 붙여넣기 할 수 있습니다")
     copy_text = "애니메이션 적용 대상 : " + animation_target + ('\n'*2) + "애니메이션 효과 설명 : " + effect_comm+('\n'*2) + "[대본]\n" + script
     
     st.code(
