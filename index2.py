@@ -19,7 +19,7 @@ with st.form(key='record_form'):
         default = ['⛔ 없음']
         )
     
-    script = st.text_area('사용할 대본', height = 400)
+    script = st.text_area('사용할 대본', height = 200)
     
     submit_button = st.form_submit_button(label='스크립트 추가')
 
