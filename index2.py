@@ -63,21 +63,15 @@ from docx import Document  # 워드 파일로 저장하기 위해 필요
 
 def to_word(df):
     doc = Document()
-    # 테이블 추가
-    table = doc.add_table(rows=1, cols=len(df.columns))
-    table.style = 'Table Grid'
-
-    # 헤더 행 추가
-    hdr_cells = table.rows[0].cells
-    for i, column_name in enumerate(df.columns):
-        hdr_cells[i].text = str(column_name)
-
-    # 데이터 행 추가
+    
+    # 데이터프레임의 컬럼명 추가
+    doc.add_paragraph(' | '.join(df.columns))
+    
+    # 데이터프레임의 데이터 추가
     for index, row in df.iterrows():
-        row_cells = table.add_row().cells
-        for i, value in enumerate(row):
-            row_cells[i].text = str(value)
-
+        row_data = ' | '.join(str(value) for value in row)
+        doc.add_paragraph(row_data)
+    
     # 파일 데이터를 BytesIO 객체로 저장하고 반환
     doc_io = BytesIO()
     doc.save(doc_io)
