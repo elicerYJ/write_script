@@ -43,19 +43,31 @@ course_name = st.text_input("강의명", "도레미파이썬")
 
 # 사용자 입력 받기
 with st.form(key='record_form'):
+    st.write("### 스크립트 작성")
+
     page_number = st.number_input("페이지 번호", value=None, step=1)
     
     animation_target = st.selectbox(
         '애니메이션 적용 대상',
-        ('⛔ 없음', "🔠 텍스트", '🆚 도형을 포함한 텍스트', '🟪 도형', '🖼️ 이미지(아이콘)/코드', '✨ 효과', '👩‍🎨 애니메이션 제작 필요','🎸 기타'),
+        ('⛔ 없음', "🔠 텍스트", '🆚 도형을 포함한 텍스트', '🟪 도형', '🖼️ 이미지(아이콘)/코드', '✨ 효과', '📊 그래프', '👩‍🎨 애니메이션 제작 필요','🎸 기타'),
         index = 0
         )
     
     effect_comm = st.text_input('애니메이션 효과 설명', '없음')
     
     script = st.text_area('사용할 대본', height = 150)
-    
+
     submit_button = st.form_submit_button(label='스크립트 추가')
+    
+    st.divider()
+    st.write("### 슬라이트 노트")
+    
+    copy_text = "애니메이션 적용 대상 : " + animation_target + ('\n'*2) + "애니메이션 효과 설명 : " + effect_comm+('\n'*2) + "[대본]\n" + script
+    
+    st.code(
+        copy_text,
+        language='plain'
+    )
 
 # 정보 추가 버튼이 클릭되었을 때
 if submit_button:
@@ -65,9 +77,10 @@ if submit_button:
                 '애니메이션 효과 설명' : effect_comm,
                 '사용할 대본': script}
     
-    st.session_state.df = pd.concat([st.session_state.df, 
-                                     pd.DataFrame([new_data])], 
-                                     ignore_index=True)
+    st.session_state.df = pd.concat(
+        [st.session_state.df, pd.DataFrame([new_data])], 
+        ignore_index=True
+        )
 
 
 # 데이터프레임을 화면에 표시
@@ -90,12 +103,22 @@ if st.button('마지막 스크립트 삭제'):
 # 데이터프레임을 워드 파일로 다운로드하는 버튼
 if st.button('워드 다운로드'):
     word_val = to_word(st.session_state.df)
-    st.download_button(label='현재 데이터 워드로 다운로드', data=word_val, file_name=f"{course_name}_script.docx", mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    st.download_button(
+        label='현재 데이터 워드로 다운로드', 
+        data=word_val, 
+        file_name=f"{course_name}_script.docx", 
+        mime='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        )
 
 
 if st.button('엑셀 다운로드'):
     val = to_excel(st.session_state.df)
-    st.download_button(label='현재 데이터 다운로드', data=val, file_name=f"{course_name}_script.xlsx", mime='application/vnd.ms-excel')
+    st.download_button(
+        label='현재 데이터 엑셀로 다운로드', 
+        data=val, 
+        file_name=f"{course_name}_script.xlsx", 
+        mime='application/vnd.ms-excel'
+        )
 
 
 st.divider()
