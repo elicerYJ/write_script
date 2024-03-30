@@ -4,6 +4,10 @@ import openpyxl  # Excel 파일로 저장하기 위해 필요
 from io import BytesIO  # 파일 다운로드를 위해 필요
 from docx import Document  # 워드 파일로 저장하기 위해 필요
 
+def clean_text(text):
+    """XML 호환 문자만 남기고 모두 제거 또는 대체"""
+    return ''.join(char for char in text if char.isprintable() or char in '\n\t').strip()
+
 # 데이터프레임을 Excel 파일로 변환하는 함수
 def to_excel(df):
     output = BytesIO()
@@ -17,13 +21,13 @@ def to_excel(df):
 def to_word(df):
     doc = Document()
     
-    # 데이터프레임의 컬럼명 추가
-    doc.add_paragraph("\n".join(df.columns))
+    # 데이터프레임의 컬럼명 추가 (클린징 적용)
+    doc.add_paragraph("\n".join(clean_text(col) for col in df.columns))
     doc.add_paragraph("==========")
     
-    # 데이터프레임의 데이터 추가
+    # 데이터프레임의 데이터 추가 (각 값에 대해 클린징 적용)
     for index, row in df.iterrows():
-        row_data = "\n".join(str(value) for value in row)
+        row_data = "\n".join(clean_text(str(value)) for value in row)
         doc.add_paragraph(row_data)
         doc.add_paragraph("==========")
 
@@ -32,6 +36,7 @@ def to_word(df):
     doc.save(doc_io)
     doc_io.seek(0)
     return doc_io.getvalue()
+
 
 st.set_page_config(layout="wide")
 
