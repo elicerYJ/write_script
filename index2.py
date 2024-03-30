@@ -20,12 +20,6 @@ def to_excel(df):
 
 def to_word(df):
     doc = Document()
-    
-    # 데이터프레임의 데이터 추가 (각 값에 대해 클린징 적용)
-    for index, row in df.iterrows():
-        row_data = "\n".join(clean_text(str(value)) for value in row)
-        doc.add_paragraph(row_data)
-        doc.add_paragraph("==========")
 
     # 데이터프레임의 각 행을 반복 처리
     for index, row in df.iterrows():
