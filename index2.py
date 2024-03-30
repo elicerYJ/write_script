@@ -27,6 +27,7 @@ def to_word(df):
     
     # 데이터프레임의 데이터 추가 (각 값에 대해 클린징 적용)
     for index, row in df.iterrows():
+        row.insert(4, "---")
         row_data = "\n".join(clean_text(str(value)) for value in row)
         doc.add_paragraph(row_data)
         doc.add_paragraph("==========")
