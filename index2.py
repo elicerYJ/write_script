@@ -21,16 +21,20 @@ def to_excel(df):
 def to_word(df):
     doc = Document()
     
-    # 데이터프레임의 컬럼명 추가 (클린징 적용)
-    doc.add_paragraph("\n".join(clean_text(col) for col in df.columns))
-    doc.add_paragraph("==========")
-    
     # 데이터프레임의 데이터 추가 (각 값에 대해 클린징 적용)
     for index, row in df.iterrows():
-        row.insert(4, "---")
         row_data = "\n".join(clean_text(str(value)) for value in row)
         doc.add_paragraph(row_data)
         doc.add_paragraph("==========")
+
+    # 데이터프레임의 각 행을 반복 처리
+    for index, row in df.iterrows():
+        doc.add_paragraph(f"페이지 번호 : {clean_text(str(row['페이지 번호']))}")
+        doc.add_paragraph(f"애니메이션 적용 대상 : {clean_text(str(row['애니메이션 적용 대상']))}")
+        doc.add_paragraph(f"애니메이션 효과 설명 : {clean_text(str(row['애니메이션 효과 설명']))}")
+        doc.add_paragraph("<대본>")
+        doc.add_paragraph(clean_text(str(row['사용할 대본'])))
+        doc.add_paragraph("---")  # 구분자 추가
 
     # 파일 데이터를 BytesIO 객체로 저장하고 반환
     doc_io = BytesIO()
