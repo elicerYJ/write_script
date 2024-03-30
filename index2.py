@@ -13,7 +13,7 @@ def to_excel(df):
     output = BytesIO()
     
     with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False, sheet_name='Sheet1')
+        df.to_excel(clean_text(str(writer)), index=False, sheet_name='Sheet1')
     
     # 파일 데이터를 가져와서 반환
     return output.getvalue()
