@@ -7,7 +7,7 @@ from docx import Document  # 워드 파일로 저장하기 위해 필요
 def clean_text(text):
     """XML 호환 문자만 남기고 모두 제거 또는 대체"""
     return ''.join(char for char in text if char.isprintable() or char in '\n\t').strip()
-
+"""
 # 데이터프레임을 Excel 파일로 변환하는 함수
 def to_excel(df):
     output = BytesIO()
@@ -17,6 +17,16 @@ def to_excel(df):
     
     # 파일 데이터를 가져와서 반환
     return output.getvalue()
+"""
+def to_excel(df):
+    output = BytesIO()
+    # Excel 파일로 데이터프레임을 저장
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Sheet1')
+        writer.save()  # 이 부분이 중요합니다.
+    output.seek(0)  # 커서를 파일의 시작 부분으로 이동합니다.
+    return output.getvalue()
+
 
 def to_word(df):
     doc = Document()
